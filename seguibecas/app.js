@@ -1006,16 +1006,26 @@ document.querySelectorAll('#sidebar-psicologo .sidebar-nav a').forEach(a => {
 
 // --- EVENTS ---
 document.getElementById('btn-guardar-obs').addEventListener('click', function() {
-  if (!selectedPsychId) { showToast('Selecciona un caso primero', 'warning'); return; }
-  const textarea = document.getElementById('obs-textarea');
-  const error = document.getElementById('obs-error');
-  const nota = textarea.value.trim();
-  if (!nota) { error.textContent = 'Escribe una observación antes de guardar.'; error.style.display = 'block'; return; }
-  error.style.display = 'none';
-  addBitacora(selectedPsychId, nota, 'observacion');
-  textarea.value = '';
-  showToast('Observación guardada', 'success');
-  actualizarBitacora(selectedPsychId);
+  try {
+    if (!selectedPsychId) { showToast('Selecciona un caso primero', 'warning'); return; }
+    const textarea = document.getElementById('obs-textarea');
+    const error = document.getElementById('obs-error');
+    const nota = textarea.value.trim();
+    if (!nota) { error.textContent = 'Escribe una observación antes de guardar.'; error.style.display = 'block'; return; }
+    error.style.display = 'none';
+    // Get fresh data and save
+    const lista = getEstudiantes();
+    const idx = lista.findIndex(e => e.id === selectedPsychId);
+    if (idx === -1) { showToast('Error: estudiante no encontrado.', 'error'); return; }
+    lista[idx].bitacora.push({ fecha: new Date().toLocaleString('es-CO'), nota: nota, tipo: 'observacion' });
+    saveEstudiantes(lista);
+    textarea.value = '';
+    showToast('Observación guardada', 'success');
+    // Re-render only the bitácora list
+    actualizarBitacora(selectedPsychId);
+  } catch (err) {
+    showToast('Error: ' + (err.message || 'desconocido'), 'error');
+  }
 });
 document.getElementById('obs-textarea').addEventListener('input', function() {
   document.getElementById('obs-error').style.display = 'none';
