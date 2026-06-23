@@ -15,28 +15,83 @@
 <div id="toast-container"></div>
 
 <!-- ============================================================ -->
-<!-- MODAL: REMITIR A PSICOLOGÍA -->
+<!-- MODAL: REGISTRO DE USUARIO -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="modal-registro-overlay" style="display:none">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <h3>Registro de Usuario</h3>
+      <button class="modal-close" id="modal-registro-close"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="reg-nombre">Nombre completo</label>
+        <input type="text" id="reg-nombre" class="form-input" placeholder="Ej: Dr. Ana Martï¿½nez">
+      </div>
+      <div class="form-group">
+        <label for="reg-email">Correo electrï¿½nico</label>
+        <input type="email" id="reg-email" class="form-input" placeholder="correo@institucion.edu">
+      </div>
+      <div class="form-group">
+        <label>Seleccione su rol</label>
+        <div style="display:flex;gap:0.75rem;margin-top:0.375rem">
+          <button class="modal-option rol-btn" data-rol="docente" style="flex:1;flex-direction:column;align-items:center;text-align:center;padding:1rem">
+            <span class="material-symbols-outlined" style="font-size:2rem;color:var(--color-primary);margin-bottom:0.5rem">local_library</span>
+            <strong>Docente</strong>
+          </button>
+          <button class="modal-option rol-btn" data-rol="psicologo" style="flex:1;flex-direction:column;align-items:center;text-align:center;padding:1rem">
+            <span class="material-symbols-outlined" style="font-size:2rem;color:var(--color-tertiary);margin-bottom:0.5rem">psychology</span>
+            <strong>Psicï¿½logo/a</strong>
+          </button>
+        </div>
+        <input type="hidden" id="reg-rol" value="">
+        <p id="reg-rol-selected" style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-top:0.5rem;display:none"></p>
+      </div>
+      <button class="btn btn-primary" id="btn-registrar" style="width:100%;justify-content:center;margin-top:0.5rem" disabled>Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: IMPORTAR JSON -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="modal-import-overlay" style="display:none">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <h3>Importar Datos (JSON)</h3>
+      <button class="modal-close" id="modal-import-close"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--color-on-surface-variant);font-size:var(--text-sm);margin-bottom:1rem">Seleccione un archivo JSON previamente exportado para restaurar los datos del sistema.</p>
+      <input type="file" id="import-file-input" accept=".json" style="display:block;margin-bottom:1rem;color:var(--color-on-surface)">
+      <button class="btn btn-primary" id="btn-import-confirm" style="justify-content:center;width:100%" disabled>Importar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: REMITIR A PSICOLOGï¿½A -->
 <!-- ============================================================ -->
 <div class="modal-overlay" id="modal-referir-overlay" style="display:none">
   <div class="modal">
     <div class="modal-header">
-      <h3>Remitir a Psicología</h3>
+      <h3>Remitir a Psicologï¿½a</h3>
       <button class="modal-close" id="modal-referir-close"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="modal-body">
-      <p style="color:var(--color-on-surface-variant);margin-bottom:1rem;font-size:var(--text-sm)">Seleccione el motivo de la remisión:</p>
+      <p style="color:var(--color-on-surface-variant);margin-bottom:1rem;font-size:var(--text-sm)">Seleccione el motivo de la remisiï¿½n:</p>
       <div class="modal-options">
         <button class="modal-option" data-motivo="bajo_rendimiento">
           <span class="material-symbols-outlined" style="color:var(--color-warn)">school</span>
           <div>
-            <strong>Bajo rendimiento académico</strong>
+            <strong>Bajo rendimiento acadï¿½mico</strong>
             <p style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-top:0.25rem">El estudiante presenta calificaciones por debajo del promedio esperado.</p>
           </div>
         </button>
         <button class="modal-option" data-motivo="desercion">
           <span class="material-symbols-outlined" style="color:var(--color-error)">logout</span>
           <div>
-            <strong>Riesgo de deserción</strong>
+            <strong>Riesgo de deserciï¿½n</strong>
             <p style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-top:0.25rem">El estudiante presenta inasistencias recurrentes o riesgo de abandono.</p>
           </div>
         </button>
@@ -57,11 +112,11 @@
     <div class="modal-body">
       <div class="form-group">
         <label for="add-nombre">Nombre completo</label>
-        <input type="text" id="add-nombre" class="form-input" placeholder="Ej: Ana María López">
+        <input type="text" id="add-nombre" class="form-input" placeholder="Ej: Ana Marï¿½a Lï¿½pez">
       </div>
       <div class="form-group">
-        <label for="add-programa">Programa académico</label>
-        <input type="text" id="add-programa" class="form-input" placeholder="Ej: Ingeniería de Sistemas">
+        <label for="add-programa">Programa acadï¿½mico</label>
+        <input type="text" id="add-programa" class="form-input" placeholder="Ej: Ingenierï¿½a de Sistemas">
       </div>
       <div class="form-group">
         <label for="add-semestre">Semestre</label>
@@ -78,7 +133,7 @@
 <div class="notif-panel" id="notif-panel" style="display:none">
   <div class="notif-header">
     <h3>Notificaciones</h3>
-    <button class="notif-mark-read" id="btn-mark-read">Marcar todas como leídas</button>
+    <button class="notif-mark-read" id="btn-mark-read">Marcar todas como leï¿½das</button>
   </div>
   <div class="notif-list" id="notif-list"></div>
 </div>
@@ -103,40 +158,40 @@
     <main class="home-main">
       <div class="home-hero">
         <h2>SeguiBecas Portal</h2>
-        <p>Acceso seguro al sistema de seguimiento y gestión de becas. Seleccione su perfil para continuar.</p>
+        <p>Acceso seguro al sistema de seguimiento y gestiï¿½n de becas. Seleccione su perfil para continuar.</p>
       </div>
-      <div class="home-grid">
-        <a class="home-card" href="#" data-view="view-docente">
-          <div class="home-card-top">
-            <div class="home-card-icon docente">
-              <span class="material-symbols-outlined fill">local_library</span>
+      <div id="home-logged-out">
+        <div class="home-grid" style="max-width:500px;margin:0 auto 2rem">
+          <button class="home-card" id="btn-registro-open" style="width:100%;text-align:center;cursor:pointer">
+            <div class="home-card-top" style="justify-content:center;margin-bottom:1rem">
+              <div class="home-card-icon docente" style="margin:0 auto">
+                <span class="material-symbols-outlined fill">person_add</span>
+              </div>
             </div>
-            <span class="material-symbols-outlined home-card-arrow">arrow_forward</span>
-          </div>
-          <div class="home-card-body">
-            <h3>Docente</h3>
-            <p>Acceso para profesores y tutores. Gestione el progreso académico, reporte de calificaciones y evaluación continua de estudiantes becados.</p>
-          </div>
-        </a>
-        <a class="home-card home-card-psych" href="#" data-view="view-psicologo">
-          <div class="home-card-top">
-            <div class="home-card-icon psicologo">
-              <span class="material-symbols-outlined fill">psychology</span>
+            <div class="home-card-body">
+              <h3>Registrar Usuario</h3>
+              <p>Registre un nuevo usuario con su rol (Docente o Psicï¿½logo/a) para acceder al sistema. Los datos se guardan automï¿½ticamente.</p>
             </div>
-            <span class="material-symbols-outlined home-card-arrow">arrow_forward</span>
+          </button>
+        </div>
+        <div id="home-users-list" style="max-width:600px;margin:0 auto"></div>
+      </div>
+      <div id="home-logged-in" style="display:none;width:100%;max-width:600px;margin:0 auto">
+        <div id="home-session-info" class="settings-card" style="margin-bottom:1.5rem;text-align:center">
+          <h3 id="home-user-name" style="font-size:var(--text-xl);margin-bottom:0.25rem"></h3>
+          <p id="home-user-role" style="color:var(--color-on-surface-variant);font-size:var(--text-sm);margin-bottom:1rem"></p>
+          <div class="home-grid" style="grid-template-columns:1fr 1fr;gap:1rem;max-width:400px;margin:0 auto">
+            <button class="btn btn-primary" id="home-btn-ir-panel" style="justify-content:center;padding:0.75rem"><span class="material-symbols-outlined" style="font-size:var(--text-sm)">login</span> Ingresar</button>
+            <button class="btn btn-outline" id="home-btn-cerrar-sesion" style="justify-content:center;padding:0.75rem"><span class="material-symbols-outlined" style="font-size:var(--text-sm)">logout</span> Cerrar sesiï¿½n</button>
           </div>
-          <div class="home-card-body">
-            <h3>Psicólogo/a</h3>
-            <p>Acceso para profesionales de apoyo. Seguimiento del bienestar emocional, entrevistas y reportes de acompañamiento psicosocial.</p>
-          </div>
-        </a>
+        </div>
       </div>
     </main>
     <footer class="home-footer">
       <p>&copy; 2024 Obsidian Scholar. Todos los derechos reservados.</p>
       <div class="home-footer-links">
         <a href="#">Privacidad</a>
-        <a href="#">Términos</a>
+        <a href="#">Tï¿½rminos</a>
         <a href="#">Contacto Institucional</a>
       </div>
     </footer>
@@ -158,7 +213,7 @@
     <div class="sidebar-nav">
       <a class="active" href="#" data-section="dashboard"><span class="material-symbols-outlined fill">dashboard</span>Dashboard</a>
       <a href="#" data-section="historial"><span class="material-symbols-outlined">history</span>Historial de Casos</a>
-      <a href="#" data-section="config"><span class="material-symbols-outlined">settings</span>Configuración</a>
+      <a href="#" data-section="config"><span class="material-symbols-outlined">settings</span>Configuraciï¿½n</a>
     </div>
     <button class="sidebar-cta" id="btn-add-student-open"><span class="material-symbols-outlined fill">add</span>Agregar Estudiante</button>
     <a class="sidebar-logout" href="#" id="btn-home-docente"><span class="material-symbols-outlined">logout</span>Inicio</a>
@@ -177,9 +232,12 @@
           <span class="material-symbols-outlined">notifications</span>
           <span class="notif-badge" id="notif-badge-docente" style="display:none">0</span>
         </button>
+        <button class="topbar-btn" id="btn-export-docente" title="Exportar JSON" aria-label="Exportar datos"><span class="material-symbols-outlined">file_download</span></button>
+        <button class="topbar-btn" id="btn-import-open" title="Importar JSON" aria-label="Importar datos"><span class="material-symbols-outlined">file_upload</span></button>
         <div class="topbar-divider"></div>
         <button class="topbar-btn" aria-label="Ayuda"><span class="material-symbols-outlined">help_outline</span></button>
-        <div class="topbar-avatar">DR</div>
+        <div class="topbar-avatar" id="docente-avatar">DR</div>
+        <span id="docente-user-label" style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-left:0.25rem;display:none"></span>
       </div>
     </header>
     <!-- Docente Dashboard Section -->
@@ -204,7 +262,7 @@
           </div>
           <div>
             <div class="stat-card-value" id="stat-alertas" style="color:var(--color-error)">0</div>
-            <div class="stat-card-sub" style="color:var(--color-on-surface-variant)">Requieren revisión inmediata</div>
+            <div class="stat-card-sub" style="color:var(--color-on-surface-variant)">Requieren revisiï¿½n inmediata</div>
           </div>
         </div>
         <div class="stat-card stat-clickable" id="stat-asistencia-card">
@@ -253,23 +311,23 @@
     <!-- Docente Settings Section -->
     <div class="content-area" id="docente-section-config" style="display:none">
       <div class="settings-panel">
-        <h2>Configuración del Sistema</h2>
-        <p style="color:var(--color-on-surface-variant);margin-bottom:1.5rem">Gestión de parámetros académicos y umbrales de alerta.</p>
+        <h2>Configuraciï¿½n del Sistema</h2>
+        <p style="color:var(--color-on-surface-variant);margin-bottom:1.5rem">Gestiï¿½n de parï¿½metros acadï¿½micos y umbrales de alerta.</p>
         <div class="settings-card">
-          <h4>Umbrales de Alerta Automática</h4>
+          <h4>Umbrales de Alerta Automï¿½tica</h4>
           <div class="form-group">
-            <label>Asistencia mínima (%)</label>
+            <label>Asistencia mï¿½nima (%)</label>
             <input type="number" class="form-input" id="umbral-asistencia" value="60" min="0" max="100" style="width:100px">
           </div>
           <div class="form-group">
-            <label>Promedio mínimo de notas</label>
+            <label>Promedio mï¿½nimo de notas</label>
             <input type="number" class="form-input" id="umbral-notas" value="3.0" min="1" max="5" step="0.1" style="width:100px">
           </div>
           <div class="form-group">
             <label>Faltas consecutivas para alerta</label>
             <input type="number" class="form-input" id="umbral-faltas" value="3" min="1" max="20" style="width:100px">
           </div>
-          <button class="btn btn-primary" id="btn-guardar-umbrales" style="margin-top:0.5rem">Guardar Configuración</button>
+          <button class="btn btn-primary" id="btn-guardar-umbrales" style="margin-top:0.5rem">Guardar Configuraciï¿½n</button>
         </div>
       </div>
     </div>
@@ -291,7 +349,7 @@
     <div class="sidebar-nav">
       <a class="active" href="#" data-section="dashboard"><span class="material-symbols-outlined fill">dashboard</span>Dashboard</a>
       <a href="#" data-section="historial"><span class="material-symbols-outlined">history</span>Historial de Casos</a>
-      <a href="#" data-section="config"><span class="material-symbols-outlined">settings</span>Configuración</a>
+      <a href="#" data-section="config"><span class="material-symbols-outlined">settings</span>Configuraciï¿½n</a>
     </div>
     <button class="sidebar-cta" style="opacity:0.5;cursor:default"><span class="material-symbols-outlined fill">add</span>Nuevo Caso</button>
     <a class="sidebar-logout" href="#" id="btn-home-psicologo"><span class="material-symbols-outlined">logout</span>Inicio</a>
@@ -299,7 +357,7 @@
   <div class="main-content">
     <header class="topbar">
       <div class="topbar-left">
-        <span class="topbar-title show">Panel de Psicología</span>
+        <span class="topbar-title show">Panel de Psicologï¿½a</span>
         <div class="topbar-search">
           <span class="material-symbols-outlined">search</span>
           <input type="text" id="search-psicologo" placeholder="Buscar casos...">
@@ -310,9 +368,12 @@
           <span class="material-symbols-outlined">notifications</span>
           <span class="notif-badge" id="notif-badge-psicologo" style="display:none">0</span>
         </button>
+        <button class="topbar-btn" id="btn-export-psicologo" title="Exportar JSON" aria-label="Exportar datos"><span class="material-symbols-outlined">file_download</span></button>
+        <button class="topbar-btn" id="btn-import-open" title="Importar JSON" aria-label="Importar datos"><span class="material-symbols-outlined">file_upload</span></button>
         <button class="topbar-btn" aria-label="Ayuda"><span class="material-symbols-outlined">help_outline</span></button>
         <div class="topbar-divider"></div>
         <div class="topbar-avatar">PS</div>
+        <span id="psicologo-user-label" style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-left:0.25rem;display:none"></span>
       </div>
     </header>
     <!-- Dashboard Section -->
@@ -321,7 +382,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
           <div>
             <h2 style="font-size:var(--text-2xl);font-weight:700">Estudiantes en Seguimiento</h2>
-            <p style="color:var(--color-on-surface-variant);font-size:var(--text-sm)" id="psic-seguimiento-count">0 estudiantes en seguimiento psicológico</p>
+            <p style="color:var(--color-on-surface-variant);font-size:var(--text-sm)" id="psic-seguimiento-count">0 estudiantes en seguimiento psicolï¿½gico</p>
           </div>
           <button class="btn btn-outline" id="btn-refresh-psic"><span class="material-symbols-outlined" style="font-size:var(--text-sm)">refresh</span> Actualizar</button>
         </div>
@@ -332,7 +393,7 @@
     <div id="psicologo-section-historial" style="display:none">
       <div class="content-area">
         <h2 style="font-size:var(--text-2xl);font-weight:700;margin-bottom:0.5rem">Historial de Casos</h2>
-        <p style="color:var(--color-on-surface-variant);font-size:var(--text-sm);margin-bottom:1.5rem">Todos los estudiantes que han sido remitidos a psicología.</p>
+        <p style="color:var(--color-on-surface-variant);font-size:var(--text-sm);margin-bottom:1.5rem">Todos los estudiantes que han sido remitidos a psicologï¿½a.</p>
         <div id="psic-historial-content"></div>
       </div>
     </div>
@@ -340,10 +401,10 @@
     <div id="psicologo-section-config" style="display:none">
       <div class="content-area">
         <div class="settings-panel">
-          <h2>Configuración</h2>
-          <p style="color:var(--color-on-surface-variant);margin-bottom:1rem">Panel de Psicología - SeguiBecas v1.0</p>
+          <h2>Configuraciï¿½n</h2>
+          <p style="color:var(--color-on-surface-variant);margin-bottom:1rem">Panel de Psicologï¿½a - SeguiBecas v1.0</p>
           <div class="settings-card">
-            <p style="color:var(--color-on-surface-variant);font-size:var(--text-sm)">Sistema de Seguimiento de Estudiantes Becados. Las notificaciones y alertas se gestionan automáticamente desde el panel de Docente.</p>
+            <p style="color:var(--color-on-surface-variant);font-size:var(--text-sm)">Sistema de Seguimiento de Estudiantes Becados. Las notificaciones y alertas se gestionan automï¿½ticamente desde el panel de Docente.</p>
           </div>
         </div>
       </div>
@@ -363,8 +424,8 @@
         <div class="psych-detail" id="psych-detail">
           <div class="psych-detail-empty" id="psych-empty">
             <span class="material-symbols-outlined">inbox</span>
-            <h3>Ningún caso seleccionado</h3>
-            <p>Seleccione una alerta de la bandeja para ver los detalles, revisar la bitácora y resolver casos.</p>
+            <h3>Ningï¿½n caso seleccionado</h3>
+            <p>Seleccione una alerta de la bandeja para ver los detalles, revisar la bitï¿½cora y resolver casos.</p>
           </div>
           <div id="psych-case-view" style="display:none">
             <div class="psych-detail-header">
@@ -386,7 +447,7 @@
               <div class="context-grid" id="context-grid">
                 <div class="context-card">
                   <span class="material-symbols-outlined">school</span>
-                  <h4>Estado Académico</h4>
+                  <h4>Estado Acadï¿½mico</h4>
                   <div class="value" id="ctx-academic"></div>
                   <div class="sub" id="ctx-academic-status"></div>
                 </div>
@@ -405,18 +466,18 @@
               </div>
               <div class="bitacora-section">
                 <div class="bitacora-header">
-                  <h3>Bitácora de Seguimiento</h3>
+                  <h3>Bitï¿½cora de Seguimiento</h3>
                 </div>
                 <div class="bitacora-timeline" id="bitacora-list"></div>
                 <div class="obs-form">
-                  <label for="obs-textarea">Agregar nueva observación</label>
-                  <textarea id="obs-textarea" placeholder="Documente la interacción, notas o próximos pasos aquí..." rows="3"></textarea>
+                  <label for="obs-textarea">Agregar nueva observaciï¿½n</label>
+                  <textarea id="obs-textarea" placeholder="Documente la interacciï¿½n, notas o prï¿½ximos pasos aquï¿½..." rows="3"></textarea>
                   <div class="inline-error" id="obs-error" style="display:none"></div>
                   <div class="obs-form-bottom">
                     <div class="obs-form-tools">
                       <button aria-label="Adjuntar archivo"><span class="material-symbols-outlined">attach_file</span></button>
                     </div>
-                    <button class="obs-submit" id="btn-guardar-obs"><span class="material-symbols-outlined" style="font-size:var(--text-sm)">save</span> Guardar Observación</button>
+                    <button class="obs-submit" id="btn-guardar-obs"><span class="material-symbols-outlined" style="font-size:var(--text-sm)">save</span> Guardar Observaciï¿½n</button>
                   </div>
                 </div>
               </div>
@@ -428,7 +489,7 @@
   </div>
 </div>
 
-<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir menú"><span class="material-symbols-outlined">menu</span></button>
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir menï¿½"><span class="material-symbols-outlined">menu</span></button>
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="modal-overlay" id="modal-backdrop" style="display:none"></div>
 

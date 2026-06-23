@@ -108,6 +108,180 @@ function getInitials(name) {
   return name.split(' ').filter(w => w.length > 0).map(w => w[0]).slice(0, 2).join('').toUpperCase();
 }
 
+// ============================================================
+// USER SYSTEM
+// ============================================================
+let sesionActual = null;
+
+function getUsuarios() {
+  try {
+    const d = localStorage.getItem('seguibecas_usuarios');
+    if (d) return JSON.parse(d);
+  } catch {}
+  return [];
+}
+
+function saveUsuarios(lista) {
+  localStorage.setItem('seguibecas_usuarios', JSON.stringify(lista));
+}
+
+function registrarUsuario(nombre, email, rol) {
+  const lista = getUsuarios();
+  if (lista.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+    showToast('Ya existe un usuario con ese correo.', 'error');
+    return false;
+  }
+  const u = { id: Date.now(), nombre, email: email.toLowerCase(), rol, fechaRegistro: new Date().toISOString() };
+  lista.push(u);
+  saveUsuarios(lista);
+  sesionActual = u;
+  localStorage.setItem('seguibecas_sesion', JSON.stringify(u));
+  showToast('Usuario registrado correctamente.', 'success');
+  actualizarHome();
+  return true;
+}
+
+function iniciarSesion(email) {
+  const lista = getUsuarios();
+  const u = lista.find(x => x.email.toLowerCase() === email.toLowerCase());
+  if (!u) { showToast('Usuario no encontrado.', 'error'); return false; }
+  sesionActual = u;
+  localStorage.setItem('seguibecas_sesion', JSON.stringify(u));
+  actualizarHome();
+  showToast('Sesión iniciada como ' + u.nombre, 'success');
+  return true;
+}
+
+function cerrarSesion() {
+  sesionActual = null;
+  localStorage.removeItem('seguibecas_sesion');
+  showView('view-home');
+  actualizarHome();
+  showToast('Sesión cerrada.', 'info');
+}
+
+function cargarSesion() {
+  try {
+    const d = localStorage.getItem('seguibecas_sesion');
+    if (d) { sesionActual = JSON.parse(d); actualizarHome(); }
+  } catch {}
+}
+
+// ============================================================
+// EXPORT / IMPORT
+// ============================================================
+function exportarDatosJSON() {
+  const data = {
+    estudiantes: getEstudiantes(),
+    umbrales: getUmbrales(),
+    notificaciones: getNotificaciones(),
+    usuarios: getUsuarios(),
+    fechaExportacion: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'seguibecas_datos_' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Datos exportados correctamente.', 'success');
+}
+
+function importarDatosJSON(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.estudiantes) { showToast('El archivo no contiene datos válidos.', 'error'); return; }
+      const confirmar = confirm('Se reemplazarán todos los datos actuales. ¿Continuar?');
+      if (!confirmar) return;
+      saveEstudiantes(data.estudiantes);
+      if (data.umbrales) saveUmbrales(data.umbrales);
+      if (data.notificaciones) {
+        notificacionesSistema = data.notificaciones;
+        localStorage.setItem('seguibecas_notificaciones', JSON.stringify(data.notificaciones));
+      }
+      if (data.usuarios) saveUsuarios(data.usuarios);
+      showToast('Datos importados correctamente.', 'success');
+      cerrarModalImport();
+      renderDocente();
+      renderPsicDashboard();
+      actualizarHome();
+      actualizarBadgesNotif();
+    } catch (err) {
+      showToast('Error al leer el archivo: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function cerrarModalImport() {
+  document.getElementById('modal-import-overlay').style.display = 'none';
+  document.getElementById('import-file-input').value = '';
+  document.getElementById('btn-import-confirm').disabled = true;
+}
+
+// ============================================================
+// HOME RENDERING
+// ============================================================
+function actualizarHome() {
+  const loggedOut = document.getElementById('home-logged-out');
+  const loggedIn = document.getElementById('home-logged-in');
+  if (!loggedOut || !loggedIn) return;
+  if (sesionActual) {
+    loggedOut.style.display = 'none';
+    loggedIn.style.display = 'block';
+    document.getElementById('home-user-name').textContent = sesionActual.nombre;
+    const rolLabel = sesionActual.rol === 'docente' ? 'Docente' : 'Psicólogo/a';
+    document.getElementById('home-user-role').textContent = 'Rol: ' + rolLabel;
+    document.getElementById('home-btn-ir-panel').onclick = function() {
+      showView(sesionActual.rol === 'docente' ? 'view-docente' : 'view-psicologo');
+    };
+    // Actualizar avatar y label en barras
+    document.getElementById('docente-user-label').textContent = sesionActual.nombre;
+    document.getElementById('docente-user-label').style.display = 'inline';
+    document.getElementById('docente-avatar').textContent = getInitials(sesionActual.nombre);
+    document.getElementById('psicologo-user-label').textContent = sesionActual.nombre;
+    document.getElementById('psicologo-user-label').style.display = 'inline';
+  } else {
+    loggedOut.style.display = 'block';
+    loggedIn.style.display = 'none';
+    document.getElementById('docente-user-label').style.display = 'none';
+    document.getElementById('psicologo-user-label').style.display = 'none';
+    renderizarUsuariosRegistrados();
+  }
+}
+
+function renderizarUsuariosRegistrados() {
+  const container = document.getElementById('home-users-list');
+  if (!container) return;
+  const lista = getUsuarios();
+  if (lista.length === 0) {
+    container.innerHTML = '<p style="text-align:center;color:var(--color-on-surface-variant);font-size:var(--text-sm)">No hay usuarios registrados. Cree uno para comenzar.</p>';
+    return;
+  }
+  let html = '<h3 style="margin-bottom:0.75rem;font-size:var(--text-base);font-weight:500">Usuarios registrados</h3>';
+  html += '<div style="display:flex;flex-direction:column;gap:0.5rem">';
+  for (const u of lista) {
+    const rolLabel = u.rol === 'docente' ? 'Docente' : 'Psicólogo/a';
+    const icon = u.rol === 'docente' ? 'local_library' : 'psychology';
+    html += '<button class="home-user-card" data-email="' + u.email + '" style="display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;background:var(--color-surface-container-low);border:1px solid var(--color-outline-variant);border-radius:var(--radius-md);width:100%;text-align:left;transition:all var(--transition);cursor:pointer">';
+    html += '<span class="material-symbols-outlined" style="font-size:1.5rem;color:' + (u.rol === 'docente' ? 'var(--color-primary)' : 'var(--color-tertiary)') + '">' + icon + '</span>';
+    html += '<div style="flex:1"><strong style="font-size:var(--text-sm)">' + u.nombre + '</strong><br><span style="font-size:var(--text-xs);color:var(--color-on-surface-variant)">' + rolLabel + ' &middot; ' + u.email + '</span></div>';
+    html += '<span class="material-symbols-outlined" style="color:var(--color-on-surface-variant);font-size:1.25rem">arrow_forward</span>';
+    html += '</button>';
+  }
+  html += '</div>';
+  container.innerHTML = html;
+  // Click handlers for each user card
+  container.querySelectorAll('.home-user-card').forEach(function(el) {
+    el.addEventListener('click', function() {
+      iniciarSesion(this.dataset.email);
+    });
+  });
+}
+
 const toastContainer = document.getElementById('toast-container');
 
 function showToast(mensaje, tipo) {
@@ -129,8 +303,22 @@ function showView(viewId) {
   document.getElementById('sidebar-overlay').classList.remove('open');
   document.querySelectorAll('.sidebar').forEach(s => s.classList.remove('open'));
   document.getElementById('notif-panel').style.display = 'none';
-  if (viewId === 'view-docente') { docenteSortFilter = null; activarSeccionDocente('dashboard'); renderDocente(); }
-  if (viewId === 'view-psicologo') { activarSeccionPsicologo('dashboard'); renderPsicDashboard(); }
+  if (viewId === 'view-docente') {
+    if (sesionActual) {
+      document.getElementById('docente-user-label').textContent = sesionActual.nombre;
+      document.getElementById('docente-user-label').style.display = 'inline';
+      document.getElementById('docente-avatar').textContent = getInitials(sesionActual.nombre);
+    }
+    docenteSortFilter = null; activarSeccionDocente('dashboard'); renderDocente();
+  }
+  if (viewId === 'view-psicologo') {
+    if (sesionActual) {
+      document.getElementById('psicologo-user-label').textContent = sesionActual.nombre;
+      document.getElementById('psicologo-user-label').style.display = 'inline';
+    }
+    activarSeccionPsicologo('dashboard'); renderPsicDashboard();
+  }
+  if (viewId === 'view-home') actualizarHome();
   getNotificaciones();
   actualizarBadgesNotif();
 }
@@ -847,6 +1035,81 @@ function cargarUmbrales() {
   document.getElementById('umbral-faltas').value = u.faltasConsecutivas;
 }
 
+// --- REGISTRO MODAL ---
+document.getElementById('btn-registro-open').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.getElementById('modal-registro-overlay').style.display = 'flex';
+});
+document.getElementById('modal-registro-close').addEventListener('click', function() {
+  document.getElementById('modal-registro-overlay').style.display = 'none';
+});
+document.getElementById('modal-registro-overlay').addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+document.querySelectorAll('.rol-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.rol-btn').forEach(function(b) { b.style.borderColor = 'var(--color-outline-variant)'; b.style.background = 'var(--color-surface-container-low)'; });
+    this.style.borderColor = 'var(--color-primary)';
+    this.style.background = 'var(--color-surface-container-high)';
+    document.getElementById('reg-rol').value = this.dataset.rol;
+    const rolLabel = this.dataset.rol === 'docente' ? 'Docente' : 'Psicólogo/a';
+    document.getElementById('reg-rol-selected').textContent = 'Rol seleccionado: ' + rolLabel;
+    document.getElementById('reg-rol-selected').style.display = 'block';
+    document.getElementById('btn-registrar').disabled = false;
+  });
+});
+document.getElementById('btn-registrar').addEventListener('click', function() {
+  const nombre = document.getElementById('reg-nombre').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const rol = document.getElementById('reg-rol').value;
+  if (!nombre || !email || !rol) { showToast('Complete todos los campos.', 'warning'); return; }
+  if (!email.includes('@')) { showToast('Correo inválido.', 'error'); return; }
+  if (registrarUsuario(nombre, email, rol)) {
+    document.getElementById('modal-registro-overlay').style.display = 'none';
+    document.getElementById('reg-nombre').value = '';
+    document.getElementById('reg-email').value = '';
+    document.getElementById('reg-rol').value = '';
+    document.getElementById('reg-rol-selected').style.display = 'none';
+    document.getElementById('btn-registrar').disabled = true;
+    document.querySelectorAll('.rol-btn').forEach(function(b) { b.style.borderColor = 'var(--color-outline-variant)'; b.style.background = 'var(--color-surface-container-low)'; });
+  }
+});
+// --- CERRAR SESIÓN ---
+document.getElementById('home-btn-cerrar-sesion').addEventListener('click', function() {
+  cerrarSesion();
+});
+// --- EXPORT ---
+document.getElementById('btn-export-docente').addEventListener('click', function() {
+  exportarDatosJSON();
+});
+document.getElementById('btn-export-psicologo').addEventListener('click', function() {
+  exportarDatosJSON();
+});
+// --- IMPORT ---
+document.querySelectorAll('#btn-import-open').forEach(function(el) {
+  el.addEventListener('click', function() {
+    document.getElementById('modal-import-overlay').style.display = 'flex';
+  });
+});
+document.getElementById('modal-import-close').addEventListener('click', function() {
+  cerrarModalImport();
+});
+document.getElementById('modal-import-overlay').addEventListener('click', function(e) {
+  if (e.target === this) cerrarModalImport();
+});
+document.getElementById('import-file-input').addEventListener('change', function() {
+  document.getElementById('btn-import-confirm').disabled = !this.files || !this.files.length;
+});
+document.getElementById('btn-import-confirm').addEventListener('click', function() {
+  const input = document.getElementById('import-file-input');
+  if (input.files && input.files.length) importarDatosJSON(input.files[0]);
+});
+
+cargarSesion();
 getNotificaciones();
 cargarUmbrales();
-showView('view-home');
+if (sesionActual) {
+  showView(sesionActual.rol === 'docente' ? 'view-docente' : 'view-psicologo');
+} else {
+  showView('view-home');
+}
