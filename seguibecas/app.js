@@ -271,6 +271,7 @@ function actualizarHome() {
   if (sesionActual) {
     loggedOut.style.display = 'none';
     loggedIn.style.display = 'block';
+    document.getElementById('home-saludo').textContent = getSaludo() + ',';
     document.getElementById('home-user-name').textContent = sesionActual.nombre;
     const rolLabel = sesionActual.rol === 'docente' ? 'Docente' : 'Psicólogo/a';
     document.getElementById('home-user-role').textContent = 'Rol: ' + rolLabel;
@@ -282,6 +283,12 @@ function actualizarHome() {
     document.getElementById('docente-avatar').textContent = getInitials(sesionActual.nombre);
     document.getElementById('psicologo-user-label').textContent = sesionActual.nombre;
     document.getElementById('psicologo-user-label').style.display = 'inline';
+    // Dropdown user names
+    document.getElementById('dropdown-user-name-docente').textContent = sesionActual.nombre;
+    document.getElementById('dropdown-user-name-psicologo').textContent = sesionActual.nombre;
+    const icon = sesionActual.rol === 'docente' ? 'local_library' : 'psychology';
+    document.getElementById('dropdown-icon-docente').textContent = icon;
+    document.getElementById('dropdown-icon-psicologo').textContent = icon;
   } else {
     loggedOut.style.display = 'block';
     loggedIn.style.display = 'none';
@@ -348,6 +355,8 @@ function showView(viewId) {
       document.getElementById('docente-user-label').textContent = sesionActual.nombre;
       document.getElementById('docente-user-label').style.display = 'inline';
       document.getElementById('docente-avatar').textContent = getInitials(sesionActual.nombre);
+      document.getElementById('dropdown-user-name-docente').textContent = sesionActual.nombre;
+      document.getElementById('dropdown-icon-docente').textContent = 'local_library';
     }
     docenteSortFilter = null; activarSeccionDocente('dashboard'); renderDocente();
   }
@@ -355,6 +364,8 @@ function showView(viewId) {
     if (sesionActual) {
       document.getElementById('psicologo-user-label').textContent = sesionActual.nombre;
       document.getElementById('psicologo-user-label').style.display = 'inline';
+      document.getElementById('dropdown-user-name-psicologo').textContent = sesionActual.nombre;
+      document.getElementById('dropdown-icon-psicologo').textContent = 'psychology';
     }
     activarSeccionPsicologo('dashboard'); renderPsicDashboard();
   }
@@ -634,7 +645,7 @@ function renderPsicDashboard() {
     const card = document.createElement('div');
     card.className = 'psic-dashboard-card';
     card.innerHTML =
-      '<div class="top-row"><div><h3>' + est.nombre + '</h3><p class="subtitle">' + est.programa + ' &bull; Sem ' + est.semestre + '</p></div><span class="badge badge-alerta"><span class="material-symbols-outlined">' + getMotivoIcon(motivo) + '</span> ' + getMotivoText(motivo) + '</span></div>' +
+      '<div class="top-row"><div><h3>' + est.nombre + '</h3><p class="subtitle">' + est.programa + ' • Sem ' + est.semestre + '</p></div><span class="badge badge-alerta"><span class="material-symbols-outlined">' + getMotivoIcon(motivo) + '</span> ' + getMotivoText(motivo) + '</span></div>' +
       '<div class="detail-row">' +
         '<div class="detail-item"><strong>Asistencia:</strong> ' + rate + '%</div>' +
         '<div class="detail-item"><strong>Promedio:</strong> ' + (avg !== null ? avg : 'N/A') + '</div>' +
@@ -667,7 +678,7 @@ function renderHistorialDocente() {
     card.className = 'historial-card';
     const remCount = est.remisiones.length;
     card.innerHTML =
-      '<div class="historial-card-header"><div><h3>' + est.nombre + '</h3><p style="font-size:var(--text-xs);color:var(--color-on-surface-variant)">' + est.programa + ' &bull; ' + remCount + ' remisión(es)</p></div><span class="material-symbols-outlined" style="color:var(--color-on-surface-variant)">expand_more</span></div>' +
+      '<div class="historial-card-header"><div><h3>' + est.nombre + '</h3><p style="font-size:var(--text-xs);color:var(--color-on-surface-variant)">' + est.programa + ' • ' + remCount + ' remisión(es)</p></div><span class="material-symbols-outlined" style="color:var(--color-on-surface-variant)">expand_more</span></div>' +
       '<div class="historial-card-body">' +
         est.remisiones.slice().reverse().map(r =>
           '<div class="entry"><span class="date">' + r.fecha + '</span><br><strong>' + getMotivoText(r.motivo) + '</strong> (origen: ' + (r.origen === 'automatico' ? 'Automático' : 'Docente') + ')</div>'
@@ -695,7 +706,7 @@ function renderHistorialPsicologo() {
     const card = document.createElement('div');
     card.className = 'historial-card';
     card.innerHTML =
-      '<div class="historial-card-header"><div><h3>' + est.nombre + '</h3><p style="font-size:var(--text-xs);color:var(--color-on-surface-variant)">' + est.programa + ' &bull; Estado: ' + (est.estado === 'Alerta' ? 'En seguimiento' : 'Normal') + '</p></div><span class="material-symbols-outlined" style="color:var(--color-on-surface-variant)">expand_more</span></div>' +
+      '<div class="historial-card-header"><div><h3>' + est.nombre + '</h3><p style="font-size:var(--text-xs);color:var(--color-on-surface-variant)">' + est.programa + ' • Estado: ' + (est.estado === 'Alerta' ? 'En seguimiento' : 'Normal') + '</p></div><span class="material-symbols-outlined" style="color:var(--color-on-surface-variant)">expand_more</span></div>' +
       '<div class="historial-card-body">' +
         est.remisiones.slice().reverse().map(r =>
           '<div class="entry"><span class="date">' + r.fecha + '</span><br><strong>' + getMotivoText(r.motivo) + '</strong> (origen: ' + (r.origen === 'automatico' ? 'Automático' : 'Docente') + ')</div>'
@@ -749,7 +760,7 @@ function renderPsicologo() {
     card.innerHTML =
       '<div class="alert-card-meta"><span class="alert-card-label ' + labelClass + '">' + label + '</span></div>' +
       '<h3>' + est.nombre + '</h3>' +
-      '<p>' + est.programa + (est.semestre ? ' &bull; Semestre ' + est.semestre : '') + '</p>' +
+      '<p>' + est.programa + (est.semestre ? ' • Semestre ' + est.semestre : '') + '</p>' +
       '<div class="alert-card-tags">' +
         '<span class="alert-card-tag">Asistencia: ' + rate + '%</span>' +
         riskTag +
@@ -781,7 +792,7 @@ function showCaseDetail(id) {
   document.getElementById('psych-empty').style.display = 'none';
 
   document.getElementById('detail-name').textContent = est.nombre;
-  document.getElementById('detail-meta').textContent = 'ID: Beca-' + String(est.id).padStart(4, '0') + ' &bull; ' + est.programa + (est.semestre ? ' &bull; ' + est.semestre + '° Semestre' : '');
+  document.getElementById('detail-meta').textContent = 'ID: Beca-' + String(est.id).padStart(4, '0') + ' • ' + est.programa + (est.semestre ? ' • ' + est.semestre + '° Semestre' : '');
   const motivo = est.motivoRemision || est.motivoAlerta;
   const origen = est.alertaAutomatica ? 'Automática' : 'Docente';
   document.getElementById('detail-motivo').textContent = 'Motivo: ' + getMotivoText(motivo) + ' (origen: ' + origen + ')';
@@ -1023,6 +1034,36 @@ document.getElementById('search-psicologo').addEventListener('input', function()
 });
 document.getElementById('btn-refresh-psic').addEventListener('click', function() {
   renderPsicDashboard();
+});
+
+function getSaludo() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Buenos días';
+  if (h < 18) return 'Buenas tardes';
+  return 'Buenas noches';
+}
+
+// --- USER DROPDOWN ---
+document.querySelectorAll('.user-menu').forEach(function(menu) {
+  menu.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const dropdown = this.querySelector('.user-dropdown');
+    if (!dropdown) return;
+    const isOpen = dropdown.classList.contains('open');
+    document.querySelectorAll('.user-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+    if (!isOpen) dropdown.classList.add('open');
+  });
+});
+document.addEventListener('click', function() {
+  document.querySelectorAll('.user-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+});
+document.getElementById('dropdown-cerrar-docente').addEventListener('click', function(e) {
+  e.stopPropagation();
+  cerrarSesion();
+});
+document.getElementById('dropdown-cerrar-psicologo').addEventListener('click', function(e) {
+  e.stopPropagation();
+  cerrarSesion();
 });
 document.querySelectorAll('[data-view]').forEach(el => {
   el.addEventListener('click', function(e) {

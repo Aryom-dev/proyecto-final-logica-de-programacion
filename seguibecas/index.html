@@ -184,6 +184,7 @@
       </div>
       <div id="home-logged-in" style="display:none;width:100%;max-width:500px;margin:0 auto">
         <div id="home-session-info" class="glass-card" style="padding:2.5rem;text-align:center">
+          <p style="font-size:var(--text-sm);color:var(--color-on-surface-variant);margin-bottom:0.25rem" id="home-saludo"></p>
           <h3 id="home-user-name" style="font-size:var(--text-2xl);margin-bottom:0.25rem"></h3>
           <p id="home-user-role" style="color:var(--color-on-surface-variant);font-size:var(--text-sm);margin-bottom:1.5rem"></p>
           <div style="display:flex;gap:1rem;justify-content:center">
@@ -242,8 +243,18 @@
         <button class="topbar-btn" id="btn-import-open" title="Importar JSON" aria-label="Importar datos"><span class="material-symbols-outlined">file_upload</span></button>
         <div class="topbar-divider"></div>
         <button class="topbar-btn" aria-label="Ayuda"><span class="material-symbols-outlined">help_outline</span></button>
-        <div class="topbar-avatar" id="docente-avatar">DR</div>
-        <span id="docente-user-label" style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-left:0.25rem;display:none"></span>
+        <div class="user-menu" id="user-menu-docente">
+          <div class="topbar-avatar" id="docente-avatar">DR</div>
+          <span id="docente-user-label" style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-left:0.25rem;display:none"></span>
+          <div class="user-dropdown" id="user-dropdown-docente">
+            <div class="user-dropdown-header">
+              <span class="material-symbols-outlined" id="dropdown-icon-docente">local_library</span>
+              <span id="dropdown-user-name-docente"></span>
+            </div>
+            <div class="user-dropdown-divider"></div>
+            <button class="user-dropdown-item" id="dropdown-cerrar-docente"><span class="material-symbols-outlined">logout</span> Cerrar sesión</button>
+          </div>
+        </div>
       </div>
     </header>
     <!-- Docente Dashboard Section -->
@@ -378,8 +389,18 @@
         <button class="topbar-btn" id="btn-import-open" title="Importar JSON" aria-label="Importar datos"><span class="material-symbols-outlined">file_upload</span></button>
         <button class="topbar-btn" aria-label="Ayuda"><span class="material-symbols-outlined">help_outline</span></button>
         <div class="topbar-divider"></div>
-        <div class="topbar-avatar">PS</div>
-        <span id="psicologo-user-label" style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-left:0.25rem;display:none"></span>
+        <div class="user-menu" id="user-menu-psicologo">
+          <div class="topbar-avatar" id="psicologo-avatar">PS</div>
+          <span id="psicologo-user-label" style="font-size:var(--text-xs);color:var(--color-on-surface-variant);margin-left:0.25rem;display:none"></span>
+          <div class="user-dropdown" id="user-dropdown-psicologo">
+            <div class="user-dropdown-header">
+              <span class="material-symbols-outlined" id="dropdown-icon-psicologo">psychology</span>
+              <span id="dropdown-user-name-psicologo"></span>
+            </div>
+            <div class="user-dropdown-divider"></div>
+            <button class="user-dropdown-item" id="dropdown-cerrar-psicologo"><span class="material-symbols-outlined">logout</span> Cerrar sesión</button>
+          </div>
+        </div>
       </div>
     </header>
     <!-- Dashboard Section -->
