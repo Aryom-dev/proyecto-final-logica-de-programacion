@@ -1007,13 +1007,12 @@ document.querySelectorAll('#sidebar-psicologo .sidebar-nav a').forEach(a => {
 window.guardarObservacion = function() {
   try {
     if (!selectedPsychId) { showToast('Selecciona un caso primero', 'warning'); return; }
-    const textarea = document.getElementById('obs-textarea');
-    const error = document.getElementById('obs-error');
-    const nota = textarea.value.trim();
-    if (!nota) { error.textContent = 'Escribe una observación antes de guardar.'; error.style.display = 'block'; return; }
-    error.style.display = 'none';
-    const lista = getEstudiantes();
-    const idx = lista.findIndex(e => e.id === selectedPsychId);
+    var textarea = document.getElementById('obs-textarea');
+    if (!textarea) { showToast('Error: No se encontró el campo de texto.', 'error'); return; }
+    var nota = textarea.value.trim();
+    if (!nota) { showToast('Escribe una observación antes de guardar.', 'warning'); return; }
+    var lista = getEstudiantes();
+    var idx = lista.findIndex(function(e) { return e.id === selectedPsychId; });
     if (idx === -1) { showToast('Error: estudiante no encontrado.', 'error'); return; }
     lista[idx].bitacora.push({ fecha: new Date().toLocaleString('es-CO'), nota: nota, tipo: 'observacion' });
     saveEstudiantes(lista);
@@ -1025,14 +1024,9 @@ window.guardarObservacion = function() {
   }
 };
 
-// Delegation fallback (catches clicks even if inline onclick fails)
 document.addEventListener('click', function(e) {
-  const btn = e.target.closest('#btn-guardar-obs');
+  var btn = e.target.closest('#btn-guardar-obs');
   if (btn) { e.preventDefault(); window.guardarObservacion(); }
-});
-
-document.getElementById('obs-textarea').addEventListener('input', function() {
-  document.getElementById('obs-error').style.display = 'none';
 });
 document.getElementById('search-docente').addEventListener('input', function() {
   renderDocente(this.value);
