@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SeguiBecas - Psychology Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#34d399",
+                        "on-tertiary-container": "#bbf7d0",
+                        "on-error": "#1a0000",
+                        "on-primary-fixed-variant": "#5b21b6",
+                        "on-primary-fixed": "#2e1065",
+                        "surface": "#0c0c0f",
+                        "on-secondary-fixed-variant": "#3f3f46",
+                        "primary": "#a78bfa",
+                        "surface-variant": "#18181b",
+                        "tertiary-fixed-dim": "#6ee7b7",
+                        "on-surface": "#fafafa",
+                        "secondary-fixed": "#a1a1aa",
+                        "on-error-container": "#fca5a5",
+                        "inverse-primary": "#5b21b6",
+                        "tertiary-container": "#065f46",
+                        "surface-bright": "#18181b",
+                        "background": "#09090b",
+                        "on-secondary": "#09090b",
+                        "error": "#ef4444",
+                        "outline": "#52525b",
+                        "tertiary-fixed": "#bbf7d0",
+                        "surface-tint": "#a78bfa",
+                        "on-primary-container": "#ede9fe",
+                        "secondary-fixed-dim": "#71717a",
+                        "surface-container-highest": "#1e1e22",
+                        "inverse-surface": "#fafafa",
+                        "primary-fixed": "#ede9fe",
+                        "on-tertiary-fixed": "#003318",
+                        "on-secondary-container": "#a1a1aa",
+                        "surface-container": "#121215",
+                        "on-primary": "#0a0012",
+                        "secondary": "#71717a",
+                        "surface-container-low": "#0f0f12",
+                        "surface-container-high": "#18181b",
+                        "on-tertiary": "#001a12",
+                        "on-secondary-fixed": "#18181b",
+                        "inverse-on-surface": "#09090b",
+                        "secondary-container": "#27272a",
+                        "on-background": "#fafafa",
+                        "surface-container-lowest": "#09090b",
+                        "surface-dim": "#0c0c0f",
+                        "primary-fixed-dim": "#c4b5fd",
+                        "on-tertiary-fixed-variant": "#047857",
+                        "primary-container": "#7c3aed",
+                        "outline-variant": "#27272a",
+                        "on-surface-variant": "#a1a1aa",
+                        "error-container": "#3b1111"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Geist", "sans-serif"],
+                        "display": ["Geist", "sans-serif"],
+                        "body": ["Geist", "sans-serif"],
+                        "label": ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Geist', sans-serif;
+            background-color: #09090b;
+            color: #fafafa;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #52525b;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-surface fixed left-0 top-0 h-full w-64 border-r border-outline-variant dark:border-outline-variant flex flex-col py-8 px-4 z-50">
+<!-- Header -->
+<div class="flex items-center gap-3 mb-10 px-2">
+<img class="w-10 h-10 rounded-lg object-cover bg-surface-container" data-alt="A sleek, minimalist logo representing an educational institution in a modern, dark theme aesthetic. The logo uses deep blacks, subtle grays, and precise geometric shapes, evoking a sense of structure, logic, and professional academic administration. High contrast and clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB-nLloz1jJdk7Rnm_ROpbhAXpVRxi6UEGYsR5ISTFZYcDoUL3T1fJJPKuoJH9O3UnKkxyS9q9qDcIflKkh1rxVX6PR6IlELMlv0c4bPxYr-5MO1fr77695ZS7PiWMeyISlDkbbZz8c8hpRqdvyzD2j56zmzzbll0wG0CEt6DFxAcpwhUiT-WIsdYd3lZzfwbncHeNpV1ghbK-45tzWj-bdsyMSbpaZEofMFDvp6PLW35mByPRoEriyiGLcChtnacKnAG7KUjYyMM"/>
+<div>
+<h1 class="text-lg font-headline font-black text-on-surface dark:text-on-surface tracking-tight">Obsidian Scholar</h1>
+<p class="font-body text-label-md text-on-surface-variant dark:text-on-surface-variant">Education Admin</p>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary font-bold py-2.5 px-4 rounded-lg mb-8 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+            New Application
+        </button>
+<!-- Navigation Links -->
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface dark:hover:text-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container-low transition-all duration-200 ease-in-out font-body text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-primary border-r-2 border-primary bg-surface-container-high dark:bg-surface-container-high transition-all duration-200 ease-in-out font-body text-label-md font-medium" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+                Case History
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface dark:hover:text-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container-low transition-all duration-200 ease-in-out font-body text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+<!-- Footer -->
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-error hover:bg-error-container/10 transition-all duration-200 ease-in-out font-body text-label-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-64 flex flex-col h-screen">
+<!-- TopNavBar -->
+<header class="bg-background dark:bg-background border-b border-outline-variant dark:border-outline-variant w-full h-16 flex justify-between items-center px-6 sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-headline font-bold tracking-tighter text-on-surface dark:text-on-surface">ScholarTrack Pro</h2>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search (Left aligned relative to right cluster) -->
+<div class="relative hidden md:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg pl-10 pr-4 py-1.5 text-sm font-body text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-on-surface-variant" placeholder="Search cases..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container transition-colors cursor-pointer active:scale-95 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container transition-colors cursor-pointer active:scale-95 duration-150">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a professional academic counselor or psychologist, set against a dark gray background. The lighting is studio quality, emphasizing competence and approachability, fitting perfectly within a high-contrast dark UI theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqnf7D-trGgbkGqg86Ab3ypO_l73TRk2RVL45cg2LxmYwKhazo9fmyz-WWpqsUkGloII6sutkacgOYpp5hK_ZM2sBgTKUdnM_pil7ry3kpiLe2UNqD2KMJOHl4QKLqovRCsEVWTtSBb_kanMVaFC8wxguD6UTfTpkv_NBax0Oh-oB2S_K4qu_U-6Z3c1qsRKcMq_Me_C_My0mXButmCK1Eh8pyExMO-4_PthsiJz4hgLoBp956xLmMVYLWlM-98SQNRpaZGs1TI6A"/>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 overflow-hidden flex flex-col md:flex-row bg-background">
+<!-- Left Panel: Bandeja de Alertas (Alert Inbox) -->
+<section class="w-full md:w-[400px] border-r border-outline-variant flex flex-col h-full bg-surface-dim">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface">
+<div>
+<h2 class="font-headline font-semibold text-lg tracking-tight">Bandeja de Alertas</h2>
+<p class="text-sm text-on-surface-variant mt-1">3 Active Cases Requires Attention</p>
+</div>
+<button class="p-1.5 rounded-md hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-3">
+<!-- Alert Card - High Priority (Active) -->
+<div class="bg-surface-container border-l-4 border-l-error border border-outline-variant rounded-r-lg p-4 cursor-pointer hover:bg-surface-container-high transition-colors relative">
+<div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-error"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-medium text-error uppercase tracking-wider">Critical Flag</span>
+<span class="text-xs text-on-surface-variant">10m ago</span>
+</div>
+<h3 class="font-semibold text-on-surface mb-1">Mateo Rodríguez</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-3">Repeated absence over 3 consecutive weeks. Academic performance dropping significantly. Needs immediate outreach.</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-highest text-on-surface-variant border border-outline-variant">Attendance</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-error-container/20 text-error border border-error/20">Risk Level: High</span>
+</div>
+</div>
+<!-- Alert Card - Medium Priority -->
+<div class="bg-surface border-l-4 border-l-primary/60 border border-outline-variant rounded-r-lg p-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-medium text-primary/80 uppercase tracking-wider">Review Needed</span>
+<span class="text-xs text-on-surface-variant">2h ago</span>
+</div>
+<h3 class="font-semibold text-on-surface mb-1">Sofia Valenzuela</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-3">Requested counseling session regarding scholarship maintenance requirements anxiety.</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-highest text-on-surface-variant border border-outline-variant">Counseling</span>
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-highest text-on-surface-variant border border-outline-variant">Academic</span>
+</div>
+</div>
+<!-- Alert Card - Low Priority -->
+<div class="bg-surface border-l-4 border-l-outline border border-outline-variant rounded-r-lg p-4 cursor-pointer hover:bg-surface-container-low transition-colors opacity-70">
+<div class="flex justify-between items-start mb-2">
+<span class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Follow-up</span>
+<span class="text-xs text-on-surface-variant">1d ago</span>
+</div>
+<h3 class="font-semibold text-on-surface mb-1">Diego Morales</h3>
+<p class="text-sm text-on-surface-variant line-clamp-2 mb-3">Routine 30-day check-in complete. Notes pending documentation.</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] bg-surface-container-highest text-on-surface-variant border border-outline-variant">Administrative</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Case Details & Bitácora -->
+<section class="flex-1 flex flex-col h-full bg-background relative overflow-hidden">
+<!-- Empty State (Hidden in this view, but structure provided)
+                <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center hidden">
+                    <span class="material-symbols-outlined text-6xl text-outline-variant mb-4 font-light">inbox</span>
+                    <h3 class="text-xl font-semibold mb-2">No Active Case Selected</h3>
+                    <p class="text-on-surface-variant max-w-sm">Select an alert from the tray to view details, review the bitácora, and resolve student issues.</p>
+                </div>
+                -->
+<!-- Active Case View -->
+<!-- Case Header -->
+<div class="p-6 lg:p-8 border-b border-outline-variant bg-surface/50 backdrop-blur-sm z-10 sticky top-0">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h2 class="text-3xl font-headline font-bold tracking-tight">Mateo Rodríguez</h2>
+<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-error/10 text-error border border-error/20 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                    High Risk
+                                </span>
+</div>
+<p class="text-on-surface-variant text-sm font-mono">ID: Beca-2023-8842 • 3rd Year Computer Science</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline-variant rounded-lg text-sm font-medium hover:bg-surface-container transition-colors text-on-surface">
+                                Hold Case
+                            </button>
+<button class="px-6 py-2 bg-tertiary hover:bg-tertiary/90 text-on-tertiary-container font-bold rounded-lg transition-colors shadow-lg shadow-tertiary/10 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                Resolver Caso
+                            </button>
+</div>
+</div>
+</div>
+<!-- Case Content Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8">
+<!-- Context Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant">
+<span class="material-symbols-outlined text-outline mb-2">school</span>
+<h4 class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Academic Standing</h4>
+<p class="text-xl font-medium">Warning Status</p>
+<p class="text-xs text-error mt-2 mt-1">GPA dropped 0.8 pts</p>
+</div>
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant">
+<span class="material-symbols-outlined text-outline mb-2">event_busy</span>
+<h4 class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Attendance</h4>
+<p class="text-xl font-medium">65% Active</p>
+<p class="text-xs text-error mt-2">Below 80% threshold</p>
+</div>
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant">
+<span class="material-symbols-outlined text-outline mb-2">account_balance_wallet</span>
+<h4 class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider mb-1">Scholarship Disb.</h4>
+<p class="text-xl font-medium">On Hold</p>
+<p class="text-xs text-primary mt-2">Pending review resolution</p>
+</div>
+</div>
+<!-- Bitácora (Logs) -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-headline font-semibold border-b border-outline-variant pb-2 inline-block pr-8">Bitácora de Seguimiento</h3>
+<button class="text-primary text-sm hover:underline">Exportar PDF</button>
+</div>
+<div class="relative border-l border-outline-variant ml-3 space-y-6 pb-6">
+<!-- Log Item -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-surface border-2 border-primary rounded-full -left-[6.5px] top-1.5"></div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
+<div class="flex justify-between items-center mb-2">
+<span class="font-medium text-sm text-primary">System Alert Generated</span>
+<span class="text-xs text-on-surface-variant font-mono">Today, 09:41 AM</span>
+</div>
+<p class="text-sm text-on-surface">Automated trigger: Student missed 3 consecutive required practical sessions. Academic warning flag raised in institutional database.</p>
+</div>
+</div>
+<!-- Log Item -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-surface border-2 border-outline rounded-full -left-[6.5px] top-1.5"></div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
+<div class="flex justify-between items-center mb-2">
+<span class="font-medium text-sm text-on-surface-variant">Previous Contact Attempt</span>
+<span class="text-xs text-on-surface-variant font-mono">Yesterday, 14:30 PM</span>
+</div>
+<p class="text-sm text-on-surface-variant">Email sent to institutional address requesting a meeting. No response received.</p>
+<div class="mt-3 bg-surface p-2 rounded text-xs font-mono text-outline border border-outline-variant">
+                                        Initiator: Dr. Elena Silva (Academic Advisor)
+                                    </div>
+</div>
+</div>
+<!-- Log Item -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-surface border-2 border-outline rounded-full -left-[6.5px] top-1.5"></div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4">
+<div class="flex justify-between items-center mb-2">
+<span class="font-medium text-sm text-on-surface-variant">Routine Check-in</span>
+<span class="text-xs text-on-surface-variant font-mono">12 Oct 2023, 10:00 AM</span>
+</div>
+<p class="text-sm text-on-surface-variant">Student reported feeling overwhelmed with coursework but committed to schedule. Suggested peer tutoring.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- New Observation Input -->
+<div class="bg-surface-container border border-outline-variant rounded-xl p-5 mt-4">
+<label class="block text-sm font-medium text-on-surface mb-2" for="observation">Add New Observation / Action Taken</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors text-on-surface resize-y" id="observation" placeholder="Document interaction, notes, or next steps here... Use markdown for formatting if needed." rows="4"></textarea>
+<div class="flex justify-between items-center mt-4">
+<div class="flex gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-high" title="Attach File">
+<span class="material-symbols-outlined text-sm">attach_file</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-high" title="Schedule Meeting">
+<span class="material-symbols-outlined text-sm">event</span>
+</button>
+</div>
+<button class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant rounded-md text-sm font-medium transition-colors text-on-surface">
+                                Save Note
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

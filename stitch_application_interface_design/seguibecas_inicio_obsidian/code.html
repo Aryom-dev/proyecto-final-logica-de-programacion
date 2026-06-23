@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SeguiBecas - Portal de Acceso</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#34d399",
+                    "on-tertiary-container": "#bbf7d0",
+                    "on-error": "#1a0000",
+                    "on-primary-fixed-variant": "#5b21b6",
+                    "on-primary-fixed": "#2e1065",
+                    "surface": "#0c0c0f",
+                    "on-secondary-fixed-variant": "#3f3f46",
+                    "primary": "#a78bfa",
+                    "surface-variant": "#18181b",
+                    "tertiary-fixed-dim": "#6ee7b7",
+                    "on-surface": "#fafafa",
+                    "secondary-fixed": "#a1a1aa",
+                    "on-error-container": "#fca5a5",
+                    "inverse-primary": "#5b21b6",
+                    "tertiary-container": "#065f46",
+                    "surface-bright": "#18181b",
+                    "background": "#09090b",
+                    "on-secondary": "#09090b",
+                    "error": "#ef4444",
+                    "outline": "#52525b",
+                    "tertiary-fixed": "#bbf7d0",
+                    "surface-tint": "#a78bfa",
+                    "on-primary-container": "#ede9fe",
+                    "secondary-fixed-dim": "#71717a",
+                    "surface-container-highest": "#1e1e22",
+                    "inverse-surface": "#fafafa",
+                    "primary-fixed": "#ede9fe",
+                    "on-tertiary-fixed": "#003318",
+                    "on-secondary-container": "#a1a1aa",
+                    "surface-container": "#121215",
+                    "on-primary": "#0a0012",
+                    "secondary": "#71717a",
+                    "surface-container-low": "#0f0f12",
+                    "surface-container-high": "#18181b",
+                    "on-tertiary": "#001a12",
+                    "on-secondary-fixed": "#18181b",
+                    "inverse-on-surface": "#09090b",
+                    "secondary-container": "#27272a",
+                    "on-background": "#fafafa",
+                    "surface-container-lowest": "#09090b",
+                    "surface-dim": "#0c0c0f",
+                    "primary-fixed-dim": "#c4b5fd",
+                    "on-tertiary-fixed-variant": "#047857",
+                    "primary-container": "#7c3aed",
+                    "outline-variant": "#27272a",
+                    "on-surface-variant": "#a1a1aa",
+                    "error-container": "#3b1111"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Geist", "sans-serif"],
+                    "display": ["Geist", "sans-serif"],
+                    "body": ["Geist", "sans-serif"],
+                    "label": ["Geist", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            background: transparent;
+            border-radius: 0.5rem;
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
+        .glow-border:hover::before {
+            background: linear-gradient(45deg, #a78bfa 0%, transparent 50%, #a78bfa 100%);
+            opacity: 0.5;
+        }
+        
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen flex flex-col antialiased relative">
+<!-- subtle background texture -->
+<div class="absolute inset-0 bg-noise pointer-events-none z-0"></div>
+<!-- minimal header / branding -->
+<header class="w-full flex justify-between items-center px-8 py-6 z-10 relative">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">school</span>
+<div>
+<h1 class="text-xl font-headline font-bold tracking-tighter text-on-surface">Obsidian Scholar</h1>
+<p class="text-xs text-on-surface-variant font-label uppercase tracking-widest">Education Admin</p>
+</div>
+</div>
+<div>
+<a class="text-label-sm text-primary hover:text-primary-fixed-dim transition-colors flex items-center gap-1 font-medium" href="#">
+<span class="material-symbols-outlined text-sm">help</span> Support
+            </a>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-4 py-12 z-10 relative">
+<div class="text-center max-w-2xl mb-16 space-y-4">
+<h2 class="text-4xl md:text-5xl font-display font-black tracking-tight text-on-surface">
+                SeguiBecas Portal
+            </h2>
+<p class="text-lg text-on-surface-variant font-body max-w-xl mx-auto">
+                Acceso seguro al sistema de seguimiento y gestión de becas. Seleccione su perfil para continuar.
+            </p>
+</div>
+<!-- Role Selection Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+<!-- Docente Card -->
+<a class="group block relative glow-border rounded-lg bg-surface-container border border-outline-variant p-8 transition-all duration-300 hover:bg-surface-container-high hover:-translate-y-1" href="#">
+<div class="flex flex-col h-full justify-between gap-8">
+<div class="flex justify-between items-start">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">local_library</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</div>
+<div>
+<h3 class="text-2xl font-headline font-bold text-on-surface mb-2 tracking-tight group-hover:text-primary transition-colors">Docente</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                            Acceso para profesores y tutores. Gestione el progreso académico, reporte de calificaciones y evaluación continua de estudiantes becados.
+                        </p>
+</div>
+</div>
+</a>
+<!-- Psicólogo/a Card -->
+<a class="group block relative glow-border rounded-lg bg-surface-container border border-outline-variant p-8 transition-all duration-300 hover:bg-surface-container-high hover:-translate-y-1" href="#">
+<div class="flex flex-col h-full justify-between gap-8">
+<div class="flex justify-between items-start">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-tertiary transition-colors">arrow_forward</span>
+</div>
+<div>
+<h3 class="text-2xl font-headline font-bold text-on-surface mb-2 tracking-tight group-hover:text-tertiary transition-colors">Psicólogo/a</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                            Acceso para profesionales de apoyo. Seguimiento del bienestar emocional, entrevistas y reportes de acompañamiento psicosocial.
+                        </p>
+</div>
+</div>
+</a>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-outline-variant/50 py-6 px-8 z-10 relative">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-label text-on-surface-variant">
+<p>© 2024 Obsidian Scholar. Todos los derechos reservados.</p>
+<div class="flex gap-6">
+<a class="hover:text-on-surface transition-colors" href="#">Privacidad</a>
+<a class="hover:text-on-surface transition-colors" href="#">Términos</a>
+<a class="hover:text-on-surface transition-colors" href="#">Contacto Institucional</a>
+</div>
+</div>
+</footer>
+</body></html>
