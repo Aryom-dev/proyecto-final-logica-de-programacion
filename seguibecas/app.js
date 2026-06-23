@@ -2,9 +2,15 @@ const DATA_VERSION = 2;
 
 function migrarDatos() {
   const ver = parseInt(localStorage.getItem('seguibecas_version') || '0');
-  if (ver < DATA_VERSION) {
+  if (ver === 0) {
+    // Fresh install or pre-version data: wipe corrupted old data and reinitialize
     localStorage.removeItem('seguibecas_estudiantes');
     localStorage.removeItem('seguibecas_notificaciones');
+    localStorage.setItem('seguibecas_version', String(DATA_VERSION));
+  }
+  if (ver > 0 && ver < DATA_VERSION) {
+    // Future migration: run data transformations here per version
+    // Example: migrate from ver=2 to ver=3 would go here
     localStorage.setItem('seguibecas_version', String(DATA_VERSION));
   }
 }
@@ -240,6 +246,7 @@ function importarDatosJSON(file) {
       if (data.notificaciones) {
         notificacionesSistema = data.notificaciones;
         localStorage.setItem('seguibecas_notificaciones', JSON.stringify(data.notificaciones));
+        notifIdCounter = data.notificaciones.length + 1;
       }
       if (data.usuarios) saveUsuarios(data.usuarios);
       showToast('Datos importados correctamente.', 'success');
