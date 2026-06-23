@@ -1,3 +1,15 @@
+const DATA_VERSION = 2;
+
+function migrarDatos() {
+  const ver = parseInt(localStorage.getItem('seguibecas_version') || '0');
+  if (ver < DATA_VERSION) {
+    localStorage.removeItem('seguibecas_estudiantes');
+    localStorage.removeItem('seguibecas_notificaciones');
+    localStorage.setItem('seguibecas_version', String(DATA_VERSION));
+  }
+}
+migrarDatos();
+
 const DATOS_INICIALES = [
   { id: 1, nombre: "Valentina Torres Ruiz", programa: "Ingeniería de Sistemas", semestre: 3, estado: "Normal", asistencia: [], calificaciones: [], bitacora: [], remisiones: [], notificaciones: [], motivoRemision: null, remitidoPor: null, fechaRemision: null, alertaAutomatica: false, motivoAlerta: null },
   { id: 2, nombre: "Carlos Andrés Mejía", programa: "Contaduría Pública", semestre: 2, estado: "Normal", asistencia: [], calificaciones: [], bitacora: [], remisiones: [], notificaciones: [], motivoRemision: null, remitidoPor: null, fechaRemision: null, alertaAutomatica: false, motivoAlerta: null },
@@ -238,7 +250,6 @@ function actualizarHome() {
     document.getElementById('home-btn-ir-panel').onclick = function() {
       showView(sesionActual.rol === 'docente' ? 'view-docente' : 'view-psicologo');
     };
-    // Actualizar avatar y label en barras
     document.getElementById('docente-user-label').textContent = sesionActual.nombre;
     document.getElementById('docente-user-label').style.display = 'inline';
     document.getElementById('docente-avatar').textContent = getInitials(sesionActual.nombre);
@@ -255,18 +266,21 @@ function actualizarHome() {
 
 function renderizarUsuariosRegistrados() {
   const container = document.getElementById('home-users-list');
+  const loggedOut = document.getElementById('home-logged-out');
   if (!container) return;
   const lista = getUsuarios();
   if (lista.length === 0) {
-    container.innerHTML = '<p style="text-align:center;color:var(--color-on-surface-variant);font-size:var(--text-sm)">No hay usuarios registrados. Cree uno para comenzar.</p>';
+    loggedOut.classList.remove('has-users');
+    container.innerHTML = '<p style="text-align:center;color:var(--color-on-surface-variant);font-size:var(--text-sm);padding:1rem 0">No hay usuarios registrados. Cree uno para comenzar.</p>';
     return;
   }
+  loggedOut.classList.add('has-users');
   let html = '<h3 style="margin-bottom:0.75rem;font-size:var(--text-base);font-weight:500">Usuarios registrados</h3>';
   html += '<div style="display:flex;flex-direction:column;gap:0.5rem">';
   for (const u of lista) {
     const rolLabel = u.rol === 'docente' ? 'Docente' : 'Psicólogo/a';
     const icon = u.rol === 'docente' ? 'local_library' : 'psychology';
-    html += '<button class="home-user-card" data-email="' + u.email + '" style="display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;background:var(--color-surface-container-low);border:1px solid var(--color-outline-variant);border-radius:var(--radius-md);width:100%;text-align:left;transition:all var(--transition);cursor:pointer">';
+    html += '<button class="user-card" data-email="' + u.email + '" style="display:flex;align-items:center;gap:1rem;padding:0.85rem 1rem;background:rgba(12,12,15,0.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-md);width:100%;text-align:left;cursor:pointer;transition:all 0.2s ease">';
     html += '<span class="material-symbols-outlined" style="font-size:1.5rem;color:' + (u.rol === 'docente' ? 'var(--color-primary)' : 'var(--color-tertiary)') + '">' + icon + '</span>';
     html += '<div style="flex:1"><strong style="font-size:var(--text-sm)">' + u.nombre + '</strong><br><span style="font-size:var(--text-xs);color:var(--color-on-surface-variant)">' + rolLabel + ' &middot; ' + u.email + '</span></div>';
     html += '<span class="material-symbols-outlined" style="color:var(--color-on-surface-variant);font-size:1.25rem">arrow_forward</span>';
@@ -274,8 +288,7 @@ function renderizarUsuariosRegistrados() {
   }
   html += '</div>';
   container.innerHTML = html;
-  // Click handlers for each user card
-  container.querySelectorAll('.home-user-card').forEach(function(el) {
+  container.querySelectorAll('.user-card').forEach(function(el) {
     el.addEventListener('click', function() {
       iniciarSesion(this.dataset.email);
     });
