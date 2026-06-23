@@ -839,7 +839,7 @@ tbody td { padding: 0.75rem 1.5rem; font-size: var(--text-sm); vertical-align: m
   flex-direction: column;
   overflow: hidden;
 }
-#psych-case-view { flex: 1; flex-direction: column; }
+#psych-case-view { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .psych-detail-empty {
   flex: 1;
   display: flex;
@@ -911,6 +911,7 @@ tbody td { padding: 0.75rem 1.5rem; font-size: var(--text-sm); vertical-align: m
   flex: 1;
   overflow-y: auto;
   padding: 1.5rem 2rem 3rem;
+  min-height: 0;
 }
 .context-grid {
   display: grid;
