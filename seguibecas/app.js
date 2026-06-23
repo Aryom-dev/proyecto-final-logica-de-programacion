@@ -83,6 +83,33 @@ function addBitacora(id, nota, tipo) {
   }
 }
 
+function actualizarBitacora(id) {
+  const estudiantes = getEstudiantes();
+  const est = estudiantes.find(e => e.id === id);
+  if (!est) return;
+  const bitacoraList = document.getElementById('bitacora-list');
+  if (!bitacoraList) return;
+  bitacoraList.innerHTML = '';
+  if (!est.bitacora || est.bitacora.length === 0) {
+    bitacoraList.innerHTML = '<div style="padding:1rem;color:var(--color-on-surface-variant);font-size:var(--text-sm)">No hay registros en la bitácora.</div>';
+  } else {
+    est.bitacora.slice().reverse().forEach(function(entry) {
+      const div = document.createElement('div');
+      div.className = 'bitacora-entry';
+      div.innerHTML =
+        '<div class="bitacora-dot"></div>' +
+        '<div class="bitacora-card">' +
+          '<div class="bitacora-card-top">' +
+            '<span class="label">' + (entry.tipo === 'alerta' ? 'Alerta' : entry.tipo === 'remision' ? 'Remisión' : entry.tipo === 'observacion' ? 'Observación' : entry.tipo === 'resolucion' ? 'Resolución' : 'Seguimiento') + '</span>' +
+            '<span class="time">' + entry.fecha + '</span>' +
+          '</div>' +
+          '<p>' + entry.nota + '</p>' +
+        '</div>';
+      bitacoraList.appendChild(div);
+    });
+  }
+}
+
 function addNotificacionSistema(mensaje, tipo, linkView) {
   const n = { id: notifIdCounter++, mensaje, fecha: new Date().toLocaleString('es-CO'), leida: false, tipo: tipo || 'info', linkView: linkView || null };
   notificacionesSistema.unshift(n);
@@ -784,7 +811,7 @@ function showCaseDetail(id) {
         '<div class="bitacora-dot"></div>' +
         '<div class="bitacora-card">' +
           '<div class="bitacora-card-top">' +
-            '<span class="label">' + (entry.tipo === 'alerta' ? 'Alerta' : entry.tipo === 'remision' ? 'Remisión' : 'Seguimiento') + '</span>' +
+            '<span class="label">' + (entry.tipo === 'alerta' ? 'Alerta' : entry.tipo === 'remision' ? 'Remisión' : entry.tipo === 'observacion' ? 'Observación' : entry.tipo === 'resolucion' ? 'Resolución' : 'Seguimiento') + '</span>' +
             '<span class="time">' + entry.fecha + '</span>' +
           '</div>' +
           '<p>' + entry.nota + '</p>' +
@@ -977,7 +1004,7 @@ document.getElementById('btn-guardar-obs').addEventListener('click', function() 
   addBitacora(selectedPsychId, nota, 'observacion');
   textarea.value = '';
   showToast('Observación guardada', 'success');
-  renderPsicologo();
+  actualizarBitacora(selectedPsychId);
 });
 document.getElementById('obs-textarea').addEventListener('input', function() {
   document.getElementById('obs-error').style.display = 'none';
