@@ -1004,8 +1004,7 @@ document.querySelectorAll('#sidebar-psicologo .sidebar-nav a').forEach(a => {
   });
 });
 
-// --- EVENTS ---
-document.getElementById('btn-guardar-obs').addEventListener('click', function() {
+window.guardarObservacion = function() {
   try {
     if (!selectedPsychId) { showToast('Selecciona un caso primero', 'warning'); return; }
     const textarea = document.getElementById('obs-textarea');
@@ -1013,7 +1012,6 @@ document.getElementById('btn-guardar-obs').addEventListener('click', function() 
     const nota = textarea.value.trim();
     if (!nota) { error.textContent = 'Escribe una observación antes de guardar.'; error.style.display = 'block'; return; }
     error.style.display = 'none';
-    // Get fresh data and save
     const lista = getEstudiantes();
     const idx = lista.findIndex(e => e.id === selectedPsychId);
     if (idx === -1) { showToast('Error: estudiante no encontrado.', 'error'); return; }
@@ -1021,12 +1019,18 @@ document.getElementById('btn-guardar-obs').addEventListener('click', function() 
     saveEstudiantes(lista);
     textarea.value = '';
     showToast('Observación guardada', 'success');
-    // Re-render only the bitácora list
     actualizarBitacora(selectedPsychId);
   } catch (err) {
     showToast('Error: ' + (err.message || 'desconocido'), 'error');
   }
+};
+
+// Delegation fallback (catches clicks even if inline onclick fails)
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('#btn-guardar-obs');
+  if (btn) { e.preventDefault(); window.guardarObservacion(); }
 });
+
 document.getElementById('obs-textarea').addEventListener('input', function() {
   document.getElementById('obs-error').style.display = 'none';
 });
